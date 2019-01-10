@@ -24,12 +24,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+LIBS += -lglut -lGLU -lGL
+
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    glwidget.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    glwidget.h
 
 FORMS += \
         mainwindow.ui
