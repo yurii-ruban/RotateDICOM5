@@ -29,11 +29,13 @@ LIBS += -lglut -lGLU -lGL
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    glwidget.cpp
+    glwidget.cpp \
+    dicomobject.cpp
 
 HEADERS += \
         mainwindow.h \
-    glwidget.h
+    glwidget.h \
+    dicomobject.h
 
 FORMS += \
         mainwindow.ui
