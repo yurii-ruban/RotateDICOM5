@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-LIBS += -lglut -lGLU -lGL
+LIBS += -lglut -lGLU -lGL -limebra
 
 SOURCES += \
         main.cpp \

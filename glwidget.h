@@ -4,6 +4,7 @@
 #include <QOpenGLWidget>
 #include <dicomobject.h>
 #include <GL/glut.h>
+#include <iostream>
 
 class GLWidget : public QOpenGLWidget
 {
@@ -13,11 +14,14 @@ public:
     void initializeGL();
     void paintGL();
     void drawAches();
+    void displayTexture();
     DICOMobject Image();
     void setImage();
     //void resizeGL(int w, int h);
+
 private:
     DICOMobject m_Image;
+    GLuint texID;
 };
 
 #endif // GLWIDGET_H
