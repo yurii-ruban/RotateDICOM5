@@ -21,11 +21,14 @@ public:
     void mouseMoveEvent(QMouseEvent* event);
     DICOMobject Image();
     void setImage();
-    //void resizeGL(int w, int h);
+    int shiftDown(int increaser = 0);
+    int shiftRight(int increaser = 0);
 
 private:
     DICOMobject m_Image;
     GLuint texID;
+    int SHIFT_DOWN;
+    int SHIFT_RIGHT;
 };
 
 #endif // GLWIDGET_H

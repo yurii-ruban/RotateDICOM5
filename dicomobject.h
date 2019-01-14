@@ -14,7 +14,6 @@ private:
     unsigned char* buffer;
     std::vector<double> image_position;
     std::vector<double> image_orientation;
-    std::string patient_position;
     std::vector <std::string> patient_orientation;
     double pixelSpacing;
     int pX, pY;
@@ -24,6 +23,15 @@ private:
         double y;
         double z;
     }P;
+
+    //Variables to store letters of orientation for showing with the image
+    std::string top;
+    std::string left;
+    std::string bottom;
+
+    //Check inclinations of the plane and store direction
+    void setDirection();
+    void calculateBottom();
 
 public:
     DICOMobject();
@@ -35,13 +43,17 @@ public:
     void setPX(int x);
     void setPY(int y);
     Point& getPoint();
-    std::string getPatientPos();
     std::vector<double> imagePosition();
     std::vector<double> imageOrientation();
     std::vector<std::string> patientOrientation();
     void parseImage(std::string name);
     const unsigned char* getBuffer();
     size_t getBufferSize();
+    std::string getTopLetters();
+    std::string getLeftLetters();
+    std::string getBottomLetters();
+
+    static const int correcter = -1; //Change direction to increasing or decreasing x coordinate
 };
 
 #endif // DICOMOBJECT_H

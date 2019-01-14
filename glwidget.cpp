@@ -3,6 +3,8 @@
 GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
     texID = 0;
+    SHIFT_DOWN = 0;
+    SHIFT_RIGHT = 0;
     m_Image.parseImage("../Lab_2.dcm");
     this->setGeometry(0, 0, m_Image.getWidth()*2, m_Image.getHeight()*2);
     setMouseTracking(true);
@@ -85,29 +87,21 @@ void GLWidget::printText(std::string str, int x, int y, float r = 0, float g = 1
 
 void GLWidget::printCoord()
 {
-    int SHIFT_DOWN = 18;
-    printText("Pixels:" , -width() / 2 + 20, height() / 2 - SHIFT_DOWN);
-    SHIFT_DOWN+=18;
-    printText("x: " + std::to_string(m_Image.getPX()), -width() / 2 + 25, height() / 2 - SHIFT_DOWN);
-    SHIFT_DOWN+=18;
-    printText("y: " + std:: to_string(m_Image.getPY()), -width() / 2 + 25, height() / 2 - SHIFT_DOWN);
-    SHIFT_DOWN+=22;
+    SHIFT_DOWN = 0;
+    SHIFT_RIGHT = 20;
+    printText("Pixels:" , -width() / 2 + shiftRight(), height() / 2 - shiftDown());
+    printText("x: " + std::to_string(m_Image.getPX()), -width() / 2 + shiftRight(7), height() / 2 - shiftDown());
+    printText("y: " + std:: to_string(m_Image.getPY()), -width() / 2 + shiftRight(7), height() / 2 - shiftDown());
 
-    printText("Milimeters: ", -width() / 2 + 20, height() / 2 - SHIFT_DOWN);
-    SHIFT_DOWN+=18;
-    printText("x: " + std::to_string(m_Image.getPoint().x), -width() / 2 + 25, height() / 2 - SHIFT_DOWN);
-    SHIFT_DOWN+=18;
-    printText("y: " + std::to_string(m_Image.getPoint().y), -width() / 2 + 25, height() / 2 - SHIFT_DOWN);
-    SHIFT_DOWN+=18;
-    printText("z: " + std::to_string(m_Image.getPoint().z), -width() / 2 + 25, height() / 2 - SHIFT_DOWN);
+    printText("Milimeters: ", -width() / 2 + shiftRight(), height() / 2 - shiftDown(7));
+    printText("x: " + std::to_string(m_Image.getPoint().x), -width() / 2 + shiftRight(7), height() / 2 - shiftDown());
+    printText("y: " + std::to_string(m_Image.getPoint().y), -width() / 2 + shiftRight(7), height() / 2 - shiftDown());
+    printText("z: " + std::to_string(m_Image.getPoint().z), -width() / 2 + shiftRight(7), height() / 2 - shiftDown());
 
-    if(m_Image.patientOrientation().at(0) == "L" && m_Image.patientOrientation().at(1) == "PH")
-    {
-        displayTexture();
-        printText("L", 0, -height() / 4);
-        printText("AF", width() / 4 - 4, -height() / 2);
-        printText("PH", width() / 4 - 4, 0);
-    }
+    displayTexture();
+    printText(m_Image.getLeftLetters(), 0, -height() / 4);
+    printText(m_Image.getBottomLetters(), width() / 4 - 4, -height() / 2);
+    printText(m_Image.getTopLetters(), width() / 4 - 4, 0);
 }
 
 DICOMobject GLWidget::Image()
@@ -120,9 +114,20 @@ void GLWidget::setImage()
     m_Image.parseImage("PUT FILE PATH HERE");
 }
 
+int GLWidget::shiftDown(int increaser)
+{
+    increaser+=18;
+    return SHIFT_DOWN+=increaser;
+}
+
+int GLWidget::shiftRight(int increaser)
+{
+    return SHIFT_RIGHT+increaser;
+}
+
 void GLWidget::mouseMotionCallback(int x, int y)
 {
-    m_Image.setPX(x - width());
+    m_Image.setPX((x - width()) * DICOMobject::correcter); //Need this by variant's requirement
     m_Image.setPY(height() - y);
 
     if (width() / 2 > m_Image.getPX() > 0 && 0 > m_Image.getPY() > - height() / 2 )
