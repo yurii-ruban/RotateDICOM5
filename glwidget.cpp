@@ -102,6 +102,7 @@ void GLWidget::printCoord()
     printText(m_Image.getLeftLetters(), 0, -height() / 4);
     printText(m_Image.getBottomLetters(), width() / 4 - 4, -height() / 2);
     printText(m_Image.getTopLetters(), width() / 4 - 4, 0);
+    printText(m_Image.getRightLetters(), width()/2 - 14, -height() / 4);
 }
 
 DICOMobject GLWidget::Image()

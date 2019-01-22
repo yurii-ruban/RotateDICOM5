@@ -28,10 +28,12 @@ private:
     std::string top;
     std::string left;
     std::string bottom;
+    std::string right;
 
     //Check inclinations of the plane and store direction
     void setDirection();
     void calculateBottom();
+    void calculateRight();
 
 public:
     DICOMobject();
@@ -52,6 +54,7 @@ public:
     std::string getTopLetters();
     std::string getLeftLetters();
     std::string getBottomLetters();
+    std::string getRightLetters();
 
     static const int correcter = -1; //Change direction to increasing or decreasing x coordinate
 };

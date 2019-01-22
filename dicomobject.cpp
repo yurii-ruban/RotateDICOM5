@@ -67,32 +67,59 @@ void DICOMobject::setDirection()
     //First cosinus vector processing
     if(image_orientation.at(0) > 0)
     {
-        left+= patient_orientation.at(0); //Taking R or L
+        left+= "L";
     }
+    else if (image_orientation.at(0) < 0)
+    {
+        left+= "R";
+    }
+
     if(image_orientation.at(1) > 0)
     {
-        left+= patient_orientation.at(1).at(0); //Taking 1st letter from "PH" or "AF"
+        left+= "P";
     }
+    else if ( image_orientation.at(1) < 0)
+    {
+        left+= "A";
+    }
+
     if(image_orientation.at(2) > 0)
     {
-        left+= patient_orientation.at(1).at(1); //Taking 2nd letter from "PH" or "AF"
+        left+= "H";
+    }
+    else if (image_orientation.at(2) < 0)
+    {
+        left+= "F";
     }
 
 
     //Second cosinus vector processing
     if(image_orientation.at(3) > 0)
     {
-        top+= patient_orientation.at(0); //Taking R or L
+        top+= "L";
     }
+    else if (image_orientation.at(3) < 0)
+    {
+        top+= "R";
+    }
+
     if(image_orientation.at(4) > 0)
     {
-        top+= patient_orientation.at(1).at(0); //Taking 1st letter from "PH" or "AF"
+        top+= "P";
+    }
+    else if (image_orientation.at(4) < 0)
+    {
+        top+= "A";
     }
     if(image_orientation.at(5) > 0)
     {
-        top+= patient_orientation.at(1).at(1); //Taking 2nd letter from "PH" or "AF"
+        top+= "H";
     }
-
+    else if(image_orientation.at(5) < 0)
+    {
+        top+= "F";
+    }
+    calculateRight();
     calculateBottom(); //Need it because of variant requirement
 }
 
@@ -152,6 +179,10 @@ void DICOMobject::calculateBottom()
         {
             bottom.push_back('F');
         }
+        else if (left.at(i) == 'L')
+        {
+            right.push_back('R');
+        }
 
 
         //Reverse case
@@ -162,6 +193,44 @@ void DICOMobject::calculateBottom()
         else if(top.at(i) == 'F')
         {
             bottom.push_back('H');
+        }
+        else if (left.at(i) == 'R')
+        {
+            right.push_back('L');
+        }
+    }
+}
+
+void DICOMobject::calculateRight()
+{
+    for(size_t i = 0; i < left.size(); ++i)
+    {
+        if(left.at(i) == 'P')
+        {
+            right.push_back('A');
+        }
+        else if (left.at(i) == 'H')
+        {
+            right.push_back('F');
+        }
+        else if (left.at(i) == 'L')
+        {
+            right.push_back('R');
+        }
+
+
+        //Reverse case
+        else if (left.at(i) == 'A')
+        {
+            right.push_back('P');
+        }
+        else if(left.at(i) == 'F')
+        {
+            right.push_back('H');
+        }
+        else if (left.at(i) == 'R')
+        {
+            right.push_back('L');
         }
     }
 }
@@ -179,4 +248,9 @@ std::string DICOMobject::getLeftLetters()
 std::string DICOMobject::getBottomLetters()
 {
     return bottom;
+}
+
+std::string DICOMobject::getRightLetters()
+{
+    return right;
 }
